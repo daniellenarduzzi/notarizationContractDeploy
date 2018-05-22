@@ -1,0 +1,88 @@
+[{
+  "constant": true,
+  "inputs": [],
+  "name": "BSG_NODE",
+  "outputs": [{
+    "name": "",
+    "type": "address"
+  }],
+  "payable": false,
+  "stateMutability": "view",
+  "type": "function"
+}, {
+  "constant": false,
+  "inputs": [{
+    "name": "_shipping",
+    "type": "string"
+  }, {
+    "name": "_hash",
+    "type": "bytes32"
+  }, {
+    "name": "_id",
+    "type": "bytes32"
+  }],
+  "name": "updateShipping",
+  "outputs": [],
+  "payable": false,
+  "stateMutability": "nonpayable",
+  "type": "function"
+}, {
+  "constant": false,
+  "inputs": [{
+    "name": "_status",
+    "type": "string"
+  }, {
+    "name": "_hash",
+    "type": "bytes32"
+  }, {
+    "name": "_id",
+    "type": "bytes32"
+  }],
+  "name": "updateStatus",
+  "outputs": [],
+  "payable": false,
+  "stateMutability": "nonpayable",
+  "type": "function"
+}, {
+  "inputs": [{
+    "name": "_buyer",
+    "type": "address"
+  }, {
+    "name": "_seller",
+    "type": "address"
+  }, {
+    "name": "_id",
+    "type": "bytes32"
+  }, {
+    "name": "_date",
+    "type": "string"
+  }, {
+    "name": "_value",
+    "type": "uint256"
+  }, {
+    "name": "_hash",
+    "type": "bytes32"
+  }, {
+    "name": "_status",
+    "type": "string"
+  }, {
+    "name": "_shipping",
+    "type": "string"
+  }],
+  "payable": false,
+  "stateMutability": "nonpayable",
+  "type": "constructor"
+}, {
+  "anonymous": false,
+  "inputs": [{
+    "indexed": false,
+    "name": "_hash",
+    "type": "bytes32"
+  }, {
+    "indexed": false,
+    "name": "_id",
+    "type": "bytes32"
+  }],
+  "name": "NotaryEvt",
+  "type": "event"
+}]

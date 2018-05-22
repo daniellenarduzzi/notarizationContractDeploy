@@ -1,9 +1,7 @@
 const Web3 = require('web3');
-var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"))
+var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8745"))
 const solc = require('solc');
-var contract =
-
-`pragma solidity ^0.4.15;
+var contract = `pragma solidity ^0.4.15;
 
 contract NotarizeTx {
 

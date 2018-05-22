@@ -22,7 +22,7 @@ contract NotarizeTx {
   /*
     Contract constructor takes _user as client Ethereum address
    */
-  function NotarizeTx(address _buyer, address _seller, bytes32 _id, string _date, uint _value, bytes32 _hash, string _status, string _shipping) public {
+ constructor(address _buyer, address _seller, bytes32 _id, string _date, uint _value, bytes32 _hash, string _status, string _shipping) public {
     _tx.buyer = _buyer;
     _tx.seller = _seller;
     _tx.id = _id;
@@ -46,7 +46,7 @@ contract NotarizeTx {
       _tx.status = _status;
       _tx.hash = _hash;
       proofs[_hash] = _id;
-      NotaryEvt(_hash, _tx.id);
+    emit  NotaryEvt(_hash, _tx.id);
     } else {
       revert();
     }
@@ -62,7 +62,7 @@ contract NotarizeTx {
       _tx.status = _shipping;
       _tx.hash = _hash;
       proofs[_hash] = _tx.id;
-      NotaryEvt(_hash, _tx.id);
+      emit NotaryEvt(_hash, _tx.id);
     } else {
       revert();
     }
