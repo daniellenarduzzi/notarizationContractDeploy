@@ -1,10 +1,10 @@
-const Web3 = require('web3');
-var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8745"))
-const solc = require('solc');
+const Web3 = require('web3')
+var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"))
+const solc = require('solc')
+var acct = []
 for (var i = 0; i < web3.eth.accounts.length; i++) {
   acct[i] = web3.eth.accounts[i]
 }
-
 var contract = `pragma solidity ^0.4.15;
 
 contract NotarizeTx {
@@ -83,12 +83,14 @@ async function getData (contract) {
     abi: await JSON.parse(compile(contract).contracts[":NotarizeTx"].interface),
     bytecode: await compile(contract).contracts[":NotarizeTx"].bytecode
   }
+}
 async function createContract(contract) {
-  return await web3.eth.contract(getData.abi(compile(contract)))
+  return await web3.eth.contract(getData(compile(contract)).abi)
 }
 async function deploy(contract, buyer, seller, id, date, value, hash, status, shipping) {
-  return await createContract(getData.abi(compile(contract))).new( buyer, seller, id, date, value, hash, status, shipping, {
-    data: getData.bytecode,
+  let createdContract =  await createContract(getData(compile(contract)).abi)
+  return new createdContract ( buyer, seller, id, date, value, hash, status, shipping, {
+    data: getData(compile(contract)).bytecode,
     gas: 3000000,
   }, (err, contract) => {if(err)console.log(err);})
 }
@@ -98,7 +100,7 @@ deploy(contract, acct[0], acct[1], "sksj3642ams6odnsoc32549102xfasf0", "2/4/18",
       console.log(res);
     },
     function (err) {
-      console.log("Error: "+err)
+      console.log(`>>>>>>Error: ${err}`)
     }
   )
 // var abi = JSON.parse(compiled.contracts.NotarizeTx.interface)
