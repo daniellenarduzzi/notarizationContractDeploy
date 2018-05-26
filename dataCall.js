@@ -1,10 +1,7 @@
 const Web3 = require('web3')
 var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"))
 const solc = require('solc')
-var acct = []
-for (var i = 0; i < web3.eth.accounts.length; i++) {
-  acct[i] = web3.eth.accounts[i]
-}
+
 var contract = `pragma solidity ^0.4.15;
 
 contract NotarizeTx {
@@ -76,6 +73,9 @@ contract NotarizeTx {
   }
 }`
 
+const _id = "sksj3642ams6odnsoc32549102xfasf0"
+const _hash = "sksj3642ams6odnsoc32549102xfasf1"
+
 var compile = (contract) => solc.compile(contract)
 
 function getData (contract) {
@@ -84,29 +84,22 @@ function getData (contract) {
     bytecode: compile(contract).contracts[":NotarizeTx"].bytecode
   }
 }
-var abi = JSON.parse(solc.compile(contract).contracts[":NotarizeTx"].interface)
-console.log(`
-  ABI:      ${abi}
-  `);
-//
-// async function createContract(contract) {
-//   return await web3.eth.contract(getData(compile(contract)).abi)
-// }
-// async function deploy(contract, buyer, seller, id, date, value, hash, status, shipping) {
-//   let createdContract =  await createContract(getData(compile(contract)).abi)
-//   return new createdContract ( buyer, seller, id, date, value, hash, status, shipping, {
-//     data: getData(compile(contract)).bytecode,
-//     gas: 3000000,
-//   }, (err, contract) => {if(err)console.log(err);})
-// }
-// deploy(contract, acct[0], acct[1], "sksj3642ams6odnsoc32549102xfasf0", "2/4/18", 1, "sksj3642ams6odnsoc32549102xfasf1", "purchased", "da")
-//   .then(
-//     function (res) {
-//       console.log(res);
-//     },
-//     function (err) {
-//       console.log(`>>>>>>Error: ${err}`)
-//     }
-//   )
-// // var abi = JSON.parse(compiled.contracts.NotarizeTx.interface)
-// // console.log(abi);
+
+var NotarizeTx = new web3.eth.contract(getData(contract).abi )
+
+var NotaryInstance = NotarizeTx.at("0xb2edb2beeaf24dc7b9e7cde7c53d22738aa84f7a")
+
+
+//call a BSG_NODE:
+NotaryInstance.methods.BSG_NODE().call({from:'0xc74525acef42b38730310d04c78a836cc08e0a67'}, function(error, result){
+console.log('error: ' + error);
+console.log(result);
+})
+NotaryInstance.methods.updateStatus("entregado", _id, _hash)
+  .send({
+    from:'0xc74525acef42b38730310d04c78a836cc08e0a67',
+    gas: 500000000,
+  }, function(error, result){
+    console.log('error: ' + error);
+    console.log(result);
+  })
