@@ -87,19 +87,19 @@ function getData (contract) {
 
 var NotarizeTx = new web3.eth.contract(getData(contract).abi )
 
-var NotaryInstance = NotarizeTx.at("0xb2edb2beeaf24dc7b9e7cde7c53d22738aa84f7a")
+var NotaryInstance = NotarizeTx.at("0x66c150726119f0bac6d162dd0fe096a90c848a1a")
 
-
-//call a BSG_NODE:
-NotaryInstance.methods.BSG_NODE().call({from:'0xc74525acef42b38730310d04c78a836cc08e0a67'}, function(error, result){
-console.log('error: ' + error);
-console.log(result);
-})
-NotaryInstance.methods.updateStatus("entregado", _id, _hash)
-  .send({
-    from:'0xc74525acef42b38730310d04c78a836cc08e0a67',
-    gas: 500000000,
-  }, function(error, result){
-    console.log('error: ' + error);
-    console.log(result);
-  })
+console.log(JSON.stringify(NotaryInstance));
+// //call a BSG_NODE:
+// NotaryInstance.methods.BSG_NODE().call({from:'0xc74525acef42b38730310d04c78a836cc08e0a67'}, function(error, result){
+// console.log('error: ' + error);
+// console.log(result);
+// })
+// NotaryInstance.methods.updateStatus("entregado", _id, _hash)
+//   .send({
+//     from:'0xc74525acef42b38730310d04c78a836cc08e0a67',
+//     gas: 500000000,
+//   }, function(error, result){
+//     console.log('error: ' + error);
+//     console.log(result);
+//   })

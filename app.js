@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-const Web3 = require('web3');
-var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8745"))
-const solc = require('solc');
-=======
 const Web3 = require('web3')
 var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"))
 const solc = require('solc')
@@ -10,7 +5,6 @@ var acct = []
 for (var i = 0; i < web3.eth.accounts.length; i++) {
   acct[i] = web3.eth.accounts[i]
 }
->>>>>>> release/1.0
 var contract = `pragma solidity ^0.4.15;
 
 contract NotarizeTx {
@@ -35,11 +29,7 @@ contract NotarizeTx {
   /*
     Contract constructor takes _user as client Ethereum address
    */
-<<<<<<< HEAD
-  function NotarizeTx(address _buyer, address _seller, bytes32 _id, string _date, uint _value, bytes32 _hash, string _status, string _shipping) public {
-=======
  constructor(address _buyer, address _seller, bytes32 _id, string _date, uint _value, bytes32 _hash, string _status, string _shipping) public {
->>>>>>> release/1.0
     _tx.buyer = _buyer;
     _tx.seller = _seller;
     _tx.id = _id;
@@ -63,11 +53,7 @@ contract NotarizeTx {
       _tx.status = _status;
       _tx.hash = _hash;
       proofs[_hash] = _id;
-<<<<<<< HEAD
-      NotaryEvt(_hash, _tx.id);
-=======
     emit  NotaryEvt(_hash, _tx.id);
->>>>>>> release/1.0
     } else {
       revert();
     }
@@ -83,20 +69,12 @@ contract NotarizeTx {
       _tx.status = _shipping;
       _tx.hash = _hash;
       proofs[_hash] = _tx.id;
-<<<<<<< HEAD
-      NotaryEvt(_hash, _tx.id);
-=======
       emit NotaryEvt(_hash, _tx.id);
->>>>>>> release/1.0
     } else {
       revert();
     }
   }
 }`
-<<<<<<< HEAD
-var compiled = solc.compile(contract)
-console.log(compiled);
-=======
 
 var compile = (contract) => solc.compile(contract)
 
@@ -106,30 +84,25 @@ function getData (contract) {
     bytecode: compile(contract).contracts[":NotarizeTx"].bytecode
   }
 }
-var abi = JSON.parse(solc.compile(contract).contracts[":NotarizeTx"].interface)
-console.log(`
-  ABI:      ${abi}
-  `);
-//
-// async function createContract(contract) {
-//   return await web3.eth.contract(getData(compile(contract)).abi)
-// }
-// async function deploy(contract, buyer, seller, id, date, value, hash, status, shipping) {
-//   let createdContract =  await createContract(getData(compile(contract)).abi)
-//   return new createdContract ( buyer, seller, id, date, value, hash, status, shipping, {
-//     data: getData(compile(contract)).bytecode,
-//     gas: 3000000,
-//   }, (err, contract) => {if(err)console.log(err);})
-// }
-// deploy(contract, acct[0], acct[1], "sksj3642ams6odnsoc32549102xfasf0", "2/4/18", 1, "sksj3642ams6odnsoc32549102xfasf1", "purchased", "da")
-//   .then(
-//     function (res) {
-//       console.log(res);
-//     },
-//     function (err) {
-//       console.log(`>>>>>>Error: ${err}`)
-//     }
-//   )
-// // var abi = JSON.parse(compiled.contracts.NotarizeTx.interface)
-// // console.log(abi);
->>>>>>> release/1.0
+
+async function createContract(contract) {
+  return await web3.eth.contract(getData(compile(contract)).abi)
+}
+async function deploy(contract, buyer, seller, id, date, value, hash, status, shipping) {
+  let createdContract =  await createContract(getData(compile(contract)).abi)
+  return new createdContract ( buyer, seller, id, date, value, hash, status, shipping, {
+    data: getData(compile(contract)).bytecode,
+    gas: 3000000,
+  }, (err, contract) => {if(err)console.log(err);})
+}
+deploy(contract, acct[0], acct[1], "sksj3642ams6odnsoc32549102xfasf0", "2/4/18", 1, "sksj3642ams6odnsoc32549102xfasf1", "purchased", "da")
+  .then(
+    function (res) {
+      console.log(res);
+    },
+    function (err) {
+      console.log(`>>>>>>Error: ${err}`)
+    }
+  )
+// var abi = JSON.parse(compiled.contracts.NotarizeTx.interface)
+// console.log(abi);
